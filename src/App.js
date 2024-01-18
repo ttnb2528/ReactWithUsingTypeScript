@@ -1,4 +1,11 @@
-import { MyButton, MyButton2, MyButton3, Counter, Theme } from "./MyButton.tsx";
+import {
+  MyButton,
+  MyButton2,
+  MyButton3,
+  Counter,
+  Theme,
+  MyObjectComplex,
+} from "./MyButton.tsx";
 import "./App.css";
 
 function App() {
@@ -15,6 +22,8 @@ function App() {
       <Counter />
 
       <Theme />
+
+      <MyObjectComplex />
     </div>
   );
 }

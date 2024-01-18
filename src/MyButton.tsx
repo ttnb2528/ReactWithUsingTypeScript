@@ -3,7 +3,8 @@ import {
   useState,
   useReducer,
   createContext,
-  useContext
+  useContext,
+  useMemo
 } from "react";
 
 // define interface properties
@@ -78,6 +79,7 @@ const getRandomTheme = (theme: theme[]) => {
   const index = Math.floor(Math.random() * theme.length);
   return theme[index];
 };
+
 const useGetTheme = () => useContext(ThemeContext);
 
 function Theme() {
@@ -120,4 +122,37 @@ function RenderTheme({ changeTheme }) {
   );
 }
 
-export { MyButtonProps, MyButton, MyButton2, MyButton3, Counter, Theme };
+type ComplexObject = {
+  kind: String
+}
+
+// The context is created with `| null` in the type, to accurately reflect the default value.
+const Context = createContext<ComplexObject | null>(null);
+
+const useGetComplexObject = () => {
+  const object = useContext(Context);
+  if(!object) {throw new Error("useGetComplexObject must be used within a Provider")};
+  return object;
+}
+
+const MyObjectComplex = () => {
+  const object = useMemo(() => ({kind: "complex"}), []);
+
+  return (
+    <Context.Provider value={object}>
+      <MyComponentComplexObject />
+    </Context.Provider>
+  )
+}
+
+const MyComponentComplexObject = () => {
+  const object = useGetComplexObject();
+
+  return (
+    <div>
+      <p>Current object: {object.kind}</p>
+    </div>
+  )
+}
+
+export { MyButtonProps, MyButton, MyButton2, MyButton3, Counter, Theme, MyObjectComplex };
